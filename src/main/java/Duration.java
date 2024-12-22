@@ -5,8 +5,6 @@ import java.util.Objects;
 /**
  * A {@code Duration} an <i>immutable</i> class that is the representation of a time duration.
  * 
- * <p>A Duration cannot be 00:00
- * 
  * <p>The {@code Duration} class can:
  * <ul>
  *      <li> Give it's duration in seconds.
@@ -18,6 +16,8 @@ import java.util.Objects;
  */
 public class Duration {
     
+    static final public Duration ZERO = new Duration(0);
+
     private final int duration;
 
     /**
@@ -27,8 +27,39 @@ public class Duration {
      * @throws IllegalArgumentException Iff {@code duration} is <= 0.
      */
     public Duration(int duration){
-        if(duration <= 0) throw new IllegalArgumentException("Duration.Duration: duration cannot be negative or 0");
+        if(duration < 0) throw new IllegalArgumentException("Duration.Duration: duration cannot be negative or 0");
         this.duration = duration;
+    }
+
+    /**
+     * Given a {@code String} formatted 'hhh...h:mm:ss' it creates the relative {@code Duration}.
+     * <p> The number represented byte the h can be an arbitrary positive number
+     * but 'mm' and 'ss' cannot be greater then 60. 
+     * 
+     * @param formattedString A not {@code null} and not {@code empty} String formatted like 'hhhh...h:mm:ss'.
+     * @throws IllegalArgumentException If {@code formattedString} is not in the format 'hh...hh:mm:ss' or if 'hh...hh', 'mm' or 'ss' are not representing numbers.
+     * @throws NullPointerException Iff {@code formattedString} is {@code null}.
+     */
+    public Duration(final String formattedString){
+        Objects.requireNonNull(formattedString);
+        if(formattedString.isBlank() || formattedString.isEmpty())
+            throw new IllegalArgumentException("String cannot be empty or full of withe spaces");
+        String[] values = formattedString.split(":");
+        int hours = 0;
+        int minutes = 0;
+        int seconds = 0;
+        if(values.length > 3) throw new IllegalArgumentException("String badly formatted");
+        try{
+            seconds = Integer.parseInt(values[values.length-1]);
+            if(values.length >= 2) minutes = Integer.parseInt(values[values.length-2]);
+            if(values.length == 3) hours = Integer.parseInt(values[values.length-3]);
+        }
+        catch(NumberFormatException e){
+            throw new IllegalArgumentException("String cannot have chars in it, except ':', for a maximum of 2");
+        }
+        if(minutes>60) throw new IllegalArgumentException("String badly formatted");
+        if(seconds>60) throw new IllegalArgumentException("String badly formatted");
+        duration = hours*3600+minutes*60+seconds;
     }
 
     /**
