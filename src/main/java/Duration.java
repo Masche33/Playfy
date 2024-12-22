@@ -16,8 +16,10 @@ import java.util.Objects;
  */
 public class Duration {
     
+    /**The static {@code Duration} */
     static final public Duration ZERO = new Duration(0);
 
+    /**The seconds of the {@code duration} */
     private final int duration;
 
     /**

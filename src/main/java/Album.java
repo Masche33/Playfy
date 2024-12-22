@@ -47,8 +47,6 @@ public class Album {
             this.duration = duration;
         }
 
-        
-
         /**
          * Getter of {@code this.title}
          * @return {@code this.title}
@@ -83,30 +81,105 @@ public class Album {
             return "\""+ title+ "\" (" +duration+")";
         }
 
+        @Override
+        public boolean equals(Object obj) {
+            if(!(obj instanceof Track)) return false;
+            return ((Track)obj).title.equals(title);
+        }
+
+        @Override
+        public int hashCode() {
+            return title.hashCode();
+        }
+
+        
     }
 
+    /**Sorted list of the {@code Album}'s {@code Tracks} in Alphabetical Order, */
     SortedSet<Track> album;
 
+    /**{@code Album}'s title' */
     private final String title;
 
+    /**
+     * Creates an {@code Album}.
+     * @param title a non {@code empty}, non {@code null} {@code String}
+     * @param names a non empty {@code List} of names parallel to {@code duration} of valid {@code String} for {@code Track.title}. 
+     * @param duration a non empty {@code List} of names parallel to {@code names} of valid {@code Duration}.
+     * @throws IllegalArgumentException If {@code title} is {@code empty} or {@code blank}. If {@code names} and {@code duration} are not aligned
+     * @throws NullPointerException Iff {@code title} or {@code names} or {@code duration} are equal to {@code null}.
+     */
     public Album(final String title, final List<String> names, final List<Duration> duration){
+        Objects.requireNonNull(title);
+        Objects.requireNonNull(names);
+        Objects.requireNonNull(duration);
+        if(title.isBlank() || title.isEmpty())
+            throw new IllegalArgumentException("Bad title");
+
+        if(names.size() != duration.size() )
+            throw new IllegalArgumentException("names and duration mismatched");
+        
         album = new TreeSet<>();
         this.title = title;
-
-        if(names.size() != duration.size())
-            throw new IllegalArgumentException("names and duration mismatched");
-
+        
         for (int idx = 0; idx < names.size(); idx++) {
             album.add(new Track(names.get(idx), duration.get(idx)));
         }
     }
 
+    public String title(){
+        return title;
+    }
+
+    /**
+     * Returns the {@code Duration} of the {@code Album}, given by the sum of all the {@code Tracks} {@code Durations} in {@code this.album}.
+     * @return The sum of the {@code Duration} of all the {@code Tracks} in {@code album}.
+     */
     public Duration totalDuration(){
         Duration res = Duration.ZERO;
         for (Track track : album) {
             res = res.sum(track.duration);            
         }
         return res;
+    }
+
+    /**
+     * Returns the {@code Track} in the album given the title if it is in it.
+     * @param title A non empyt, non null {@code String}
+     * @return The {@code Track} with the same title of {@code title}
+     */
+    public Track getTrackByTitle(final String title){
+        for (Track track : album) {
+            int res = track.title.compareTo(title);
+            if(res >= 1)            
+                return null;
+            if(res == 0)
+                return track;
+        }
+        return null;
+
+    }
+
+    public Track getTrackByPosition(final int position){
+        if(position <= 0 || position > album.size())
+            throw new IndexOutOfBoundsException(position+ " is not a valid index for the album");
+        int counter = 0;
+        for (Track track : album) 
+            if(counter++ == position-1)
+                return track;
+        //This istruction is cannot be reached, if the position does not generate an exception the track will be found
+        return null;
+    }
+
+    public int getIndexByTrack(final String otherTrack){
+        Objects.requireNonNull(otherTrack);
+        int counter = 1;
+        for (Track track : album) {
+            if(track.title.equals(otherTrack))
+                return counter;
+            counter++;
+        }
+        return -1;
     }
 
     @Override
@@ -127,6 +200,6 @@ public class Album {
         return sb.toString();
     }
 
-    
+
 
 }
