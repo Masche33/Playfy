@@ -26,6 +26,19 @@ public class Album{
      * It has a {@code title}, a{@code duration} and an {@code Album}.
      */
     public class Track implements Comparable<Track>{
+
+        /**
+         * AF:
+         *      (title, duration) = Is a tuple that represents the Title of the Track and the Duration of the Track
+         * --------------
+         * RI:
+         *      title != null
+         *      duration != null
+         *      title != ""
+         *      title is not only full of spaces
+         */
+
+
         /**The {@code title} of the {@code Track}.*/
         private final String title;
         /**The {@code duration}  of the {@code Track}.*/
@@ -96,12 +109,21 @@ public class Album{
         
     }
 
-
+    /**
+     * AF:
+     *  (title,  album) is the tuple that represents the title and the ordered set of the tracks 
+     * -
+     * RI: 
+     *      title != null
+     *      title != ""
+     *      title is not only full of spaces
+     *      album != null
+     *      album is not empty
+     *      album is ordered in alphabetical order
+     */
     
     /**Sorted list of the {@code Album}'s {@code Tracks} in Alphabetical Order, */
     SortedSet<Track> album;
-
-    private final Iterator<Track> it;
 
     /**{@code Album}'s title' */
     private final String title;
@@ -130,7 +152,6 @@ public class Album{
         for (int idx = 0; idx < names.size(); idx++) {
             album.add(new Track(names.get(idx), duration.get(idx)));
         }
-        it  = album.iterator();
     }
 
     public String title(){
@@ -190,10 +211,10 @@ public class Album{
 
     /**
      * Returns the {@code iterator}
-     * @return {@code this.it}
+     * @return {@code this.album.iterator()}
      */
     public Iterator<Track> iterator(){
-        return it;
+        return album.iterator();
     }
 
     @Override

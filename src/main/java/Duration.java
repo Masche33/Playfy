@@ -16,6 +16,15 @@ import java.util.Objects;
  */
 public class Duration {
     
+    /**
+     * AF:
+     *  duration is the count in seconds the duration in time
+     * -------------------
+     * RI:
+     *  duration >= 0
+     * 
+     */
+
     /**The static {@code Duration} */
     static final public Duration ZERO = new Duration(0);
 

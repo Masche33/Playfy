@@ -20,7 +20,17 @@ import main.java.Album.Track;
  * </ul>
  */
 public class PlayList {
-    
+    /**
+     * AF:
+     *  (title,  playlist) is the tuple that represents the title and a set of tracks 
+     * -
+     * RI: 
+     *      title != null
+     *      title != ""
+     *      title is not only full of spaces
+     *      playlist != null
+     *      playlist is not empty
+     */
     /** The {@code title} of the {@code Playlist}. */
     private final String title;
 
