@@ -1,6 +1,8 @@
-package main.java;
+package tests;
 
 import java.util.ArrayList;
+import main.java.Album;
+import main.java.Duration;
 
 public class AlbumClient {
 

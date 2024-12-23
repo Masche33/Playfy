@@ -1,6 +1,7 @@
-package main.java;
+package tests;
 
 import java.util.ArrayList;
+import main.java.Duration;
 
 public class DurationClient {
     public static void main(String[] args) {

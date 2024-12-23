@@ -1,5 +1,6 @@
 package main.java;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.SortedSet;
@@ -17,7 +18,7 @@ import java.util.TreeSet;
  *      <li>Get the total duration
  * </ul>
  */
-public class Album {
+public class Album{
  
     /**
      * A class to represent a single {@code Track}.
@@ -95,8 +96,12 @@ public class Album {
         
     }
 
+
+    
     /**Sorted list of the {@code Album}'s {@code Tracks} in Alphabetical Order, */
     SortedSet<Track> album;
+
+    private final Iterator<Track> it;
 
     /**{@code Album}'s title' */
     private final String title;
@@ -125,6 +130,7 @@ public class Album {
         for (int idx = 0; idx < names.size(); idx++) {
             album.add(new Track(names.get(idx), duration.get(idx)));
         }
+        it  = album.iterator();
     }
 
     public String title(){
@@ -180,6 +186,14 @@ public class Album {
             counter++;
         }
         return -1;
+    }
+
+    /**
+     * Returns the {@code iterator}
+     * @return {@code this.it}
+     */
+    public Iterator<Track> iterator(){
+        return it;
     }
 
     @Override

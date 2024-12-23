@@ -1,6 +1,11 @@
-package main.java;
+package tests;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import main.java.Album;
+import main.java.Album.Track;
+import main.java.Duration;
+import main.java.PlayList;
 
 public class PlayListClient {
         public static void main(String[] args) {
@@ -17,8 +22,35 @@ public class PlayListClient {
             PlayList pl = new PlayList("Favorites");
             pl.add(album1.getTrackByPosition(1));
             pl.add(album1.getTrackByPosition(2));
+            pl.add(album1.getTrackByPosition(3));
+            pl.add(album1.getTrackByPosition(4));
+            pl.add(album1.getTrackByPosition(5));
+            pl.add(album1.getTrackByPosition(6));
+            pl.add(album1.getTrackByPosition(7));
+            pl.add(album1.getTrackByPosition(8));
+            pl.add(album1.getTrackByPosition(9));
+            pl.add(album1.getTrackByPosition(10));
+            pl.add(album2.getTrackByPosition(1));
+            pl.add(album2.getTrackByPosition(2));
             pl.add(album2.getTrackByPosition(3));
+            pl.add(album2.getTrackByPosition(4));
+            pl.add(album2.getTrackByPosition(5));
+            pl.add(album2.getTrackByPosition(6));
+            pl.add(album2.getTrackByPosition(7));
+            pl.add(album2.getTrackByPosition(8));
+            pl.add(album2.getTrackByPosition(9));
+            pl.add(album2.getTrackByPosition(10));
+
             System.out.println(pl);
+            Iterator<Track> i = pl.iterator("Bardomagno");
+            while(i.hasNext()){
+                System.out.println(i.next());
+            }
+            i = pl.iterator("Rustage");
+            while(i.hasNext()){
+                System.out.println(i.next());
+            }
+
         }
     
         

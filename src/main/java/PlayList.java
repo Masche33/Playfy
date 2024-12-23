@@ -1,6 +1,7 @@
 package main.java;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 import main.java.Album.Track;
 
@@ -33,7 +34,7 @@ public class PlayList {
      * @throws NullPointerException iff {@code title} is {@code null}.
      * @throws IllegalArgumentException iff {@code title} is empty of full of blanks.
      */
-    public PlayList(final String title){
+    public PlayList(String title){
         Objects.requireNonNull(title);
         if(title.isBlank() || title.isEmpty())
             throw new IllegalArgumentException("title cannot be empty all with all spaces");
@@ -85,6 +86,8 @@ public class PlayList {
         playlist.remove(track);
     }
 
+
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Playlist name:");
@@ -102,6 +105,25 @@ public class PlayList {
         sb.append("Total duration: ");
         sb.append(totalDuration());
         return sb.toString();
+    }
+
+    public Iterator<Track> iterator(final String albumTitle) {
+        return new Iterator<Album.Track>() {
+            final Object[] values = playlist.toArray();
+            int index = 0;
+            @Override
+            public boolean hasNext() {
+                while (index<values.length && !(((Track)values[index]).album().title().equals(albumTitle))) {
+                    index++;
+                }
+                return (index < values.length);
+            }
+
+            @Override
+            public Track next() {
+                return (Track)values[index++];
+            }
+        };
     }
 
 }
